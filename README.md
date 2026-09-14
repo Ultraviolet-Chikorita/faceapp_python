@@ -2,7 +2,7 @@
 
 A Python/Kivy prototype for recognising a small set of known people from a live camera feed using OpenCV and `face_recognition`/dlib.
 
-> **Status:** experimental biometric prototype. It is **not** an authentication system and is not production-ready. The main value of the repository is the end-to-end client flow: identity lookup, remote reference-image loading, face encoding, live camera matching, and UI overlays.
+> **Status:** experimental biometric prototype. It is **not** an authentication system and is not production-ready. The project implements an end-to-end client flow: identity lookup, remote reference-image loading, face encoding, live camera matching, and UI overlays.
 
 ## What it does
 
@@ -16,9 +16,9 @@ A Python/Kivy prototype for recognising a small set of known people from a live 
 
 No development phone number is embedded in source. If neither Android nor `REMIND_DEV_PHONE_NUMBER` provides an identity, the app simply starts with no known-person records.
 
-## Reviewer guide
+## Key components
 
-This is deliberately a small prototype; almost all behavior is in [`main.py`](main.py). The useful pieces to inspect are:
+This is deliberately a small prototype; almost all behavior is in [`main.py`](main.py):
 
 - `get_phone_number()` - optional Android identity bridge;
 - `fetch_user_info()` - API/configuration boundary with timeouts and error handling;
@@ -105,6 +105,6 @@ Do not use the current prototype for access control, authentication, surveillanc
 - periodic recognition rather than a decoupled render/detection pipeline;
 - experimental Android packaging.
 
-## Best next engineering work
+## Future work
 
-I would split API, configuration, recognition and UI concerns into separate modules; add deterministic tests around API parsing and match selection; separate camera rendering from the slower detection cadence; and build a consent-aware local cache that stores derived embeddings rather than repeatedly downloading raw reference images.
+Useful next steps would be to split API, configuration, recognition and UI concerns into separate modules; add deterministic tests around API parsing and match selection; separate camera rendering from the slower detection cadence; and build a consent-aware local cache that stores derived embeddings rather than repeatedly downloading raw reference images.
