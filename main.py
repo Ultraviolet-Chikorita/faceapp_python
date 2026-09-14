@@ -41,7 +41,8 @@ def fetch_user_info(phone_number=None):
     """Fetch known-person records for the current/development user.
 
     A development identity must be supplied explicitly through
-    ``REMIND_DEV_PHONE_NUMBER``. No personal phone number is embedded in source.
+    ``REMIND_DEV_PHONE_NUMBER``. Deployed/reference-service calls should also set
+    ``REMIND_API_TOKEN``; the phone number is a lookup key, not an auth factor.
     """
     phone_number = phone_number or os.getenv("REMIND_DEV_PHONE_NUMBER")
     if not phone_number:
@@ -52,10 +53,14 @@ def fetch_user_info(phone_number=None):
         return []
 
     url = os.getenv("REMIND_API_URL", DEFAULT_API_URL)
+    token = os.getenv("REMIND_API_TOKEN", "")
+    headers = {"X-Remind-Api-Key": token} if token else {}
+
     try:
         response = requests.post(
             url,
             json={"phone_number": phone_number},
+            headers=headers,
             timeout=REQUEST_TIMEOUT_SECONDS,
         )
         response.raise_for_status()
